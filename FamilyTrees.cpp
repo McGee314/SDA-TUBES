@@ -1,7 +1,7 @@
 #include "FamilyTrees.h"
 
 
-
+//sumber github
 void gotoxy(int X, int y) {
 	COORD coord;
 	coord.X = X;
@@ -9,6 +9,7 @@ void gotoxy(int X, int y) {
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
 }
 
+//sumber github
 void loading_screen() {
 	int i;
 	gotoxy(50, 10); printf("Loading...");
