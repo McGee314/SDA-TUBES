@@ -8,12 +8,17 @@
 // Dibuat oleh Muhammad Samudera Bagja
 typedef char infoType[50];
 typedef struct KingdomTree *pointerN;
+
+// Sumber : Tugas Program Struktur Non Binary Tree SDA-P
+// Struct Identitas Raja/Ratu dan Pasangannya
 typedef struct {
     infoType name;
     int age;
     boolean gender;
 }identity;
 
+// Modifikasi oleh : Samudera
+// Struct Node Anggota Silsilah Kerajaan
 typedef struct kingdomTree{
     pointerN pr;
     identity infoKeturunan;
@@ -22,16 +27,36 @@ typedef struct kingdomTree{
     pointerN nb;
 }TreeNode;
 
+
 typedef struct Tree{
     pointerN root;
 };
 
-void Create_Tree(Tree *T);
+// Modifikasi oleh : Rafli
+// Struct Queue untuk Level-order Traversal
+struct Queue {
+    int front, rear, size;
+    pointerN *arrQueue;
+};
 
-//Sumber GitHub
+// Sumber : Tugas Program Struktur Non Binary Tree SDA-P
+void Create_Tree(Tree *T);
+// Membuat Tree Kosong
+
+// Sumber : Tugas Program Struktur Non Binary Tree SDA-P
+boolean isEmpty (struct Tree T);
+// Mengirimkan true jika tree kosong
+
+// Sumber GitHub
 void gotoxy(int X, int y);
 //untuk digunakan dalam loading Screen
 
 // Sumber GitHub
 void loading_screen();
-// Menampilkan loading screen
+// Menampilkan loading screen   
+
+// Sumber : Tugas Program Struktur Non Binary Tree SDA-P
+// Modifikasi oleh : Rafli
+pointerN CreateNode (pointerN parent, infoType name, int age, boolean gender);
+// Alokasi Node (Anggota Kerajaan)
+
