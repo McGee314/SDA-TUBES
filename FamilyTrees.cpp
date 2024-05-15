@@ -22,3 +22,15 @@ void loading_screen() {
 	system("pause");
 	system("cls");
 }
+
+//Create non binary tree
+void Create_Tree(Tree *T){
+	T->root = NULL;
+}
+
+boolean IsEmpty(Tree T){
+	return (T.root == NULL);
+}
+
+
+

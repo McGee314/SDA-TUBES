@@ -22,9 +22,11 @@ typedef struct kingdomTree{
     pointerN nb;
 }TreeNode;
 
-struct Tree{
+typedef struct Tree{
     pointerN root;
 };
+
+void Create_Tree(Tree *T);
 
 //Sumber GitHub
 void gotoxy(int X, int y);
