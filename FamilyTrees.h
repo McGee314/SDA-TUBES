@@ -10,14 +10,16 @@ typedef char infoType[50];
 typedef struct KingdomTree *pointerN;
 
 // Sumber : Tugas Program Struktur Non Binary Tree SDA-P
+// Modifikasi oleh : Samudera
 // Struct Identitas Raja/Ratu dan Pasangannya
 typedef struct {
     infoType name;
     int age;
     boolean gender;
+    boolean liveStatus;
 }identity;
 
-// Modifikasi oleh : Samudera
+
 // Struct Node Anggota Silsilah Kerajaan
 typedef struct kingdomTree{
     pointerN pr;
@@ -32,6 +34,14 @@ typedef struct Tree{
     pointerN root;
 };
 
+typedef struct kingQueen{
+    pointerN kingQueenP;
+};
+
+typedef struct princePrincess{
+    pointerN princePrincessP;
+};
+
 // Modifikasi oleh : Rafli
 // Struct Queue untuk Level-order Traversal
 struct Queue {
@@ -39,12 +49,7 @@ struct Queue {
     pointerN *arrQueue;
 };
 
-typedef struct kingQueen{
-    pointerN kingQueenP;
-};
-typedef struct princePrincess{
-    pointerN princePrincessP;
-};
+
 
 // Sumber : Tugas Program Struktur Non Binary Tree SDA-P
 void Create_Tree(Tree *T);
