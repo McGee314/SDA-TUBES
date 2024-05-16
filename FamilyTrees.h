@@ -39,6 +39,13 @@ struct Queue {
     pointerN *arrQueue;
 };
 
+typedef struct kingQueen{
+    pointerN kingQueenP;
+};
+typedef struct princePrincess{
+    pointerN princePrincessP;
+};
+
 // Sumber : Tugas Program Struktur Non Binary Tree SDA-P
 void Create_Tree(Tree *T);
 // Membuat Tree Kosong
