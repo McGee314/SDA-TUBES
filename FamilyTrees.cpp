@@ -1,5 +1,6 @@
 #include "FamilyTrees.h"
-
+#include <iostream>
+#include <windows.h>
 
 //sumber github
 void gotoxy(int X, int y) {
@@ -32,5 +33,14 @@ boolean IsEmpty(Tree T){
 	return (T.root == NULL);
 }
 
+void printFromFile(const char* location){
+	FILE *read;
+	char c;
 
+	read=fopen(location, "rt");
+	while((c=fgetc(read))!=EOF){
+		printf("%c", c);
+	}
 
+	fclose(read);
+}

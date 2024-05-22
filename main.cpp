@@ -1,8 +1,16 @@
 #include "FamilyTrees.cpp"
+#define CREATOR "Dibuat oleh Muhammad Samudera Bagja, Muhammad Rafli Fadhilah, Devi Febrianti"
 
 int main(){
-    loading_screen();
+    //loading_screen();
+    printFromFile("ascii/kingdom.txt");
+    printf("\n\n\t\t");
+    printf(CREATOR);
+    printf("\n\n");
+    system("pause");
 
-    gotoxy(50, 10), printf(" Testing ");
-    printf("Coba aja");
+    
+
+
     return 0;
+}

@@ -17,6 +17,7 @@ typedef struct {
     int age;
     boolean gender;
     boolean liveStatus;
+    int tahunLahir;
 }identity;
 
 
@@ -49,8 +50,6 @@ struct Queue {
     pointerN *arrQueue;
 };
 
-
-
 // Sumber : Tugas Program Struktur Non Binary Tree SDA-P
 void Create_Tree(Tree *T);
 // Membuat Tree Kosong
@@ -71,4 +70,8 @@ void loading_screen();
 // Modifikasi oleh : Rafli
 pointerN CreateNode (pointerN parent, infoType name, int age, boolean gender);
 // Alokasi Node (Anggota Kerajaan)
+
+void printFromFile(const char* location);
+/* Menampilkan teks pada file yang terdapat pada location*/
+
 
