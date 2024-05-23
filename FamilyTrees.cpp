@@ -50,19 +50,20 @@ boolean IsEmpty(Tree T){
 
 // Prosedur untuk menginisialisasi identitas kosong
 // dibuat oleh Muhammad Samudera Bagja
-pointerN CreateNode(pointerN pr, const char* name, int age, bool gender, bool liveStatus) {
-    pointerN newNode = (pointerN)malloc(sizeof(TreeNode));
+pointerN CreateNode(pointerN pr, infoType name, int age, boolean gender, boolean liveStatus) {
+	pointerN newNode;
+	newNode = (pointerN)malloc(sizeof(TreeNode));
     if (newNode != NULL) {
         newNode->fs = NULL;
         newNode->nb = NULL;
         newNode->pr = pr;
-        newNode->infoKeturunan.name = name;
+        strcpy(newNode->infoKeturunan.name,name);
         newNode->infoKeturunan.age = age;
         newNode->infoKeturunan.gender = gender;
         newNode->infoKeturunan.liveStatus = liveStatus;
 		
         // Inisialisasi pasangan sebagai NULL
-        newNode->infoPasangan.name = NULL;
+        strcpy(newNode->infoPasangan.name,NULL);
         newNode->infoPasangan.age = 0;
         newNode->infoPasangan.gender = false;
         newNode->infoPasangan.liveStatus = false;

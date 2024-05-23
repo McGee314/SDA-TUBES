@@ -24,7 +24,7 @@ typedef struct {
 
 
 // Struct Node Anggota Silsilah Kerajaan
-typedef struct kingdomTree{
+typedef struct KingdomTree{
     pointerN pr;
     pointerN fs;
     pointerN nb;
