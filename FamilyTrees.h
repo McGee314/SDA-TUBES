@@ -2,6 +2,9 @@
 #include <stdlib.h>
 #include <windows.h>
 #include <conio.h>
+#include <string.h>
+#include <iostream>
+#include <windows.h>
 #include "boolean.h"
 
 
@@ -17,17 +20,16 @@ typedef struct {
     int age;
     boolean gender;
     boolean liveStatus;
-    int tahunLahir;
 }identity;
 
 
 // Struct Node Anggota Silsilah Kerajaan
 typedef struct kingdomTree{
     pointerN pr;
-    identity infoKeturunan;
-    identity infoPasangan;
     pointerN fs;
     pointerN nb;
+    identity infoKeturunan;
+    identity infoPasangan;
 }TreeNode;
 
 
