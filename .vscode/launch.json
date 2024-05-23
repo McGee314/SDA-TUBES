@@ -1,0 +1,24 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "cppdbg",
+      "request": "launch",
+      "args": [],
+      "stopAtEntry": false,
+      "externalConsole": true,
+      "cwd": "c:/Users/ACER/Documents/Rafli/Kuliah/Tugas Kuliah/Semester 2/Struktur Data dan Algoritma (SDA)/Praktek/Tubes Kelompok/code 2023 SEKARANG BANGET/SDA-TUBES/SDA-TUBES",
+      "program": "c:/Users/ACER/Documents/Rafli/Kuliah/Tugas Kuliah/Semester 2/Struktur Data dan Algoritma (SDA)/Praktek/Tubes Kelompok/code 2023 SEKARANG BANGET/SDA-TUBES/SDA-TUBES/build/Debug/outDebug",
+      "MIMode": "gdb",
+      "miDebuggerPath": "gdb",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ]
+    }
+  ]
+}

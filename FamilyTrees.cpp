@@ -1,115 +1,206 @@
 #include "FamilyTrees.h"
 
-
 //sumber github
 void gotoxy(int X, int y) {
-	COORD coord;
-	coord.X = X;
-	coord.Y = y;
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
+    COORD coord;
+    coord.X = X;
+    coord.Y = y;
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
 }
 
 //sumber github
 void loading_screen() {
-	int i;
-	gotoxy(50, 10); printf("Loading...");
-	gotoxy(50, 12);
-	for (i = 0; i <= 17; i++) {
-		Sleep(90);
-		printf("%c", 177);
-	}
-	printf("\n\n");
-	system("pause");
-	system("cls");
+    int i;
+    gotoxy(50, 10); printf("Loading...");
+    gotoxy(50, 12);
+    for (i = 0; i <= 17; i++) {
+        Sleep(90);
+        printf("%c", 177);
+    }
+    printf("\n\n");
+    system("pause");
+    system("cls");
 }
-
-
-
-
 
 void printFromFile(const char* location){
-	FILE *read;
-	char c;
+    FILE *read;
+    char c;
 
-	read=fopen(location, "rt");
-	while((c=fgetc(read))!=EOF){
-		printf("%c", c);
-	}
+    read = fopen(location, "rt");
+    while ((c = fgetc(read)) != EOF) {
+        printf("%c", c);
+    }
 
-	fclose(read);
+    fclose(read);
 }
 
-//Create non binary tree
+// Create non binary tree
 void Create_Tree(Tree *T){
-	T->root = NULL;
+    T->root = NULL;
 }
 
-boolean IsEmpty(Tree T){
-	return (T.root == NULL);
+boolean isEmpty(Tree T){
+    return (T.root == NULL);
 }
 
 // Prosedur untuk menginisialisasi identitas kosong
-// dibuat oleh Muhammad Samudera Bagja
 pointerN CreateNode(pointerN pr, infoType name, int age, boolean gender, boolean liveStatus) {
-	pointerN newNode;
-	newNode = (pointerN)malloc(sizeof(TreeNode));
+    pointerN newNode;
+    newNode = (pointerN)malloc(sizeof(TreeNode));
     if (newNode != NULL) {
         newNode->fs = NULL;
         newNode->nb = NULL;
         newNode->pr = pr;
-        strcpy(newNode->infoKeturunan.name,name);
+        strcpy(newNode->infoKeturunan.name, name);
         newNode->infoKeturunan.age = age;
         newNode->infoKeturunan.gender = gender;
         newNode->infoKeturunan.liveStatus = liveStatus;
-		
+        
         // Inisialisasi pasangan sebagai NULL
-        strcpy(newNode->infoPasangan.name,NULL);
+        strcpy(newNode->infoPasangan.name, "");
         newNode->infoPasangan.age = 0;
         newNode->infoPasangan.gender = false;
         newNode->infoPasangan.liveStatus = false;
-		
-	}
-return newNode;
+    }
+    return newNode;
 }
 
-// Prosedur untuk memasukkan infoKeturunan ke dalam tree
-// void insertInfoKeturunan(pointerN* root, const char* name, int age, boolean gender) {
-//     pointerN newNode = (pointerN)malloc(sizeof(TreeNode));
-//     if (newNode != NULL) {
-//         initIdentity(&(newNode->infoKeturunan), name, age, gender, true); // liveStatus true
-//         newNode->infoPasangan.name = NULL;
-//         newNode->infoPasangan.age = 0;
-//         newNode->infoPasangan.gender = 0;
-//         newNode->infoPasangan.liveStatus = false;
-//         newNode->pr = NULL;
-//         newNode->fs = NULL;
-//         newNode->nb = NULL;
+void InsertKing(struct Tree *pTree){
+    pointerN king;
+    infoType name;
+    int age, temp;
+    boolean gender;
+    boolean liveStatus = true; // true = hidup, false = mati
 
-//         if (*root == NULL) {
-//             *root = newNode;
-//         } else {
-//             // Bisa tambahkan logika untuk menambahkan node ke posisi yang sesuai di tree
-//             // Misalnya, menambahkan sebagai first child atau sibling tergantung kebutuhan
-//             // Contoh menambahkan sebagai sibling root
-//             newNode->nb = (*root)->fs;
-//             (*root)->fs = newNode;
-//         }
-//     } else {
-//         printf("Gagal mengalokasikan memori untuk node baru.\n");
-//     }
-// }
+    /* Input Nama */
+    printf("\n\tMasukan Identitas Raja / Ratu:\n");
+    printf("\n\tNama: ");
+    scanf(" %[^\n]", name);
 
-// void printNodeInfo(TreeNode* node) {
-//     if (node != NULL) {
-//         printf("Nama: %s, Umur: %d, Gender: %s, LiveStatus: %s\n",
-//             node->infoKeturunan.name,
-//             node->infoKeturunan.age,
-//             node->infoKeturunan.gender ? "Laki-laki" : "Perempuan",
-//             node->infoKeturunan.liveStatus ? "Hidup" : "Meninggal");
-//         if (node->infoPasangan.name != NULL) {
-//             printf("Pasangan: %s\n", node->infoPasangan.name);
-//         } else {
-//             printf("Pasangan: NULL\n");
-//         }
-//     }
-// }
+    /* Input Jenis Kelamin */
+    do {
+        printf("\n\t%c Pilih jenis kelamin\n", 175);
+        printf("\t  0. Wanita\n");
+        printf("\t  1. Pria\n");
+        printf("\t  Pilihan: ");
+        scanf(" %d", &temp);
+        if (temp != 0 && temp != 1) {
+            printf("\t Input tidak valid \n");
+        } else {
+            gender = (temp == 1);
+            break;
+        }
+    } while (1);
+
+    /* Input Umur Raja / Ratu */
+    do {
+        printf("\n\tUmur: ");
+        scanf(" %d", &age);
+    } while (age < 0 || age >= 100);
+
+    /* Alokasi node */
+    king = CreateNode(NULL, name, age, gender, liveStatus);
+
+    /* Insert ke tree */
+    pTree->root = king;
+    printf("\n\tRaja/ratu berhasil ditambahkan");
+
+    /* Menambahkan pasangan */
+    InsertSpouse(king);
+
+    /* Print ke file */
+    PrintKingAndSpouseToFile(king, "MonarchHierarchy.txt");
+    
+    getch();
+}
+
+void InsertSpouse(pointerN kingNode){
+    infoType name;
+    int age, temp;
+    boolean gender;
+    boolean liveStatus = true; // true = hidup, false = mati
+
+    /* Input Nama */
+    printf("\n\tMasukan Identitas Pasangan Raja / Ratu:\n");
+    printf("\n\tNama: ");
+    scanf(" %[^\n]", name);
+
+    /* Input Jenis Kelamin */
+    do {
+        printf("\n\t%c Pilih jenis kelamin\n", 175);
+        printf("\t  0. Wanita\n");
+        printf("\t  1. Pria\n");
+        printf("\t  Pilihan: ");
+        scanf(" %d", &temp);
+        if (temp != 0 && temp != 1) {
+            printf("\t Input tidak valid \n");
+        } else {
+            gender = (temp == 1);
+            break;
+        }
+    } while (1);
+
+    /* Input Umur Pasangan */
+    do {
+        printf("\n\tUmur: ");
+        scanf(" %d", &age);
+    } while (age < 0 || age >= 100);
+
+    /* Assign pasangan ke node raja/ratu */
+    strcpy(kingNode->infoPasangan.name, name);
+    kingNode->infoPasangan.age = age;
+    kingNode->infoPasangan.gender = gender;
+    kingNode->infoPasangan.liveStatus = liveStatus;
+}
+
+void PrintKingAndSpouseToFile(pointerN kingNode, const char* filename){
+    FILE *file = fopen(filename, "w");
+
+    if (file == NULL) {
+        printf("File tidak ditemukan/file tidak dapat dibuka\n");
+        return;
+    }
+
+    fprintf(file, "NULL, %s, %d, %d, %d, ", 
+        kingNode->infoKeturunan.name, kingNode->infoKeturunan.age, kingNode->infoKeturunan.gender, kingNode->infoKeturunan.liveStatus);
+    fprintf(file, "%s, %d, %d, %d\n", 
+        kingNode->infoPasangan.name, kingNode->infoPasangan.age, kingNode->infoPasangan.gender, kingNode->infoPasangan.liveStatus);
+
+    fclose(file);
+}
+
+void ReadFromFileAndDisplay(const char* filename) {
+    FILE *file = fopen(filename, "r");
+
+    if (file == NULL) {
+        printf("File tidak ditemukan/file tidak dapat dibuka\n");
+        return;
+    }
+
+    char parent[50], kingName[50], spouseName[50];
+    int kingAge;
+    int kingGender, kingLiveStatus;
+    int spouseAge;
+    int spouseGender, spouseLiveStatus;
+
+    while (fscanf(file, "%[^,], %[^,], %d, %d, %d, %[^,], %d, %d, %d\n", 
+                  parent, kingName, &kingAge, &kingGender, &kingLiveStatus, 
+                  spouseName, &spouseAge, &spouseGender, &spouseLiveStatus) != EOF) {
+        
+        if (strcmp(parent, "NULL") != 0) {
+            printf("Orang tua: %s\n", parent);
+        }
+        printf("Raja/Ratu: %s\n", kingName);
+        printf("Umur Raja/Ratu: %d\n", kingAge);
+        printf("Gender Raja/Ratu: %s\n", kingGender ? "Laki-laki" : "Perempuan");
+        printf("Status Raja/Ratu: %s\n", kingLiveStatus ? "Hidup" : "Mati");
+
+        printf("Pasangan: %s\n", spouseName);
+        printf("Umur Pasangan: %d\n", spouseAge);
+        printf("Gender Pasangan: %s\n", spouseGender ? "Laki-laki" : "Perempuan");
+        printf("Status Pasangan: %s\n", spouseLiveStatus ? "Hidup" : "Mati");
+        printf("\n");
+    }
+
+    fclose(file);
+}

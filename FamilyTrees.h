@@ -4,9 +4,7 @@
 #include <conio.h>
 #include <string.h>
 #include <iostream>
-#include <windows.h>
 #include "boolean.h"
-
 
 // Dibuat oleh Muhammad Samudera Bagja
 typedef char infoType[50];
@@ -20,30 +18,28 @@ typedef struct {
     int age;
     boolean gender;
     boolean liveStatus;
-}identity;
-
+} identity;
 
 // Struct Node Anggota Silsilah Kerajaan
-typedef struct KingdomTree{
+typedef struct KingdomTree {
     pointerN pr;
     pointerN fs;
     pointerN nb;
     identity infoKeturunan;
     identity infoPasangan;
-}TreeNode;
+} TreeNode;
 
-
-typedef struct Tree{
+typedef struct Tree {
     pointerN root;
-};
+} Tree;
 
-typedef struct kingQueen{
+typedef struct kingQueen {
     pointerN kingQueenP;
-};
+} kingQueen;
 
-typedef struct princePrincess{
+typedef struct princePrincess {
     pointerN princePrincessP;
-};
+} princePrincess;
 
 // Modifikasi oleh : Rafli
 // Struct Queue untuk Level-order Traversal
@@ -70,10 +66,13 @@ void loading_screen();
 
 // Sumber : Tugas Program Struktur Non Binary Tree SDA-P
 // Modifikasi oleh : Rafli
-pointerN CreateNode (pointerN parent, infoType name, int age, boolean gender);
+pointerN CreateNode (pointerN parent, infoType name, int age, boolean gender, boolean liveStatus);
 // Alokasi Node (Anggota Kerajaan)
 
 void printFromFile(const char* location);
 /* Menampilkan teks pada file yang terdapat pada location*/
 
-
+void InsertKing(struct Tree *pTree);
+void InsertSpouse(pointerN kingNode);
+void PrintKingAndSpouseToFile(pointerN kingNode, const char* filename);
+void ReadFromFileAndDisplay(const char* filename);
