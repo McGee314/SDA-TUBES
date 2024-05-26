@@ -76,3 +76,9 @@ void InsertKing(struct Tree *pTree);
 void InsertSpouse(pointerN kingNode);
 void PrintKingAndSpouseToFile(pointerN kingNode, const char* filename);
 void ReadFromFileAndDisplay(const char* filename);
+
+// New functions
+pointerN CreateDescendantNode(pointerN parent, infoType name, int age, boolean gender, boolean liveStatus);
+void InsertDescendantInfo(pointerN parent);
+void PrintDescendantToFile(pointerN node, const char* filename);
+void ReadDescendantFromFileAndDisplay(const char* filename);

@@ -204,3 +204,114 @@ void ReadFromFileAndDisplay(const char* filename) {
 
     fclose(file);
 }
+
+// New functions
+pointerN CreateDescendantNode(pointerN parent, infoType name, int age, boolean gender, boolean liveStatus) {
+    return CreateNode(parent, name, age, gender, liveStatus);
+}
+
+void InsertDescendantInfo(pointerN parent) {
+    pointerN descendant;
+    infoType name;
+    int age, temp;
+    boolean gender;
+    boolean liveStatus = true; // true = hidup, false = mati
+
+    /* Input Nama */
+    printf("\n\tMasukan Identitas Keturunan:\n");
+    printf("\n\tNama: ");
+    scanf(" %[^\n]", name);
+
+    /* Input Jenis Kelamin */
+    do {
+        printf("\n\t%c Pilih jenis kelamin\n", 175);
+        printf("\t  0. Wanita\n");
+        printf("\t  1. Pria\n");
+        printf("\t  Pilihan: ");
+        scanf(" %d", &temp);
+        if (temp != 0 && temp != 1) {
+            printf("\t Input tidak valid \n");
+        } else {
+            gender = (temp == 1);
+            break;
+        }
+    } while (1);
+
+    /* Input Umur Keturunan */
+    do {
+        printf("\n\tUmur: ");
+        scanf(" %d", &age);
+    } while (age < 0 || age >= 100);
+
+    /* Alokasi node */
+    descendant = CreateDescendantNode(parent, name, age, gender, liveStatus);
+
+    /* Insert ke tree */
+    if (parent->fs == NULL) {
+        parent->fs = descendant;
+    } else {
+        pointerN sibling = parent->fs;
+        while (sibling->nb != NULL) {
+            sibling = sibling->nb;
+        }
+        sibling->nb = descendant;
+    }
+    printf("\n\tKeturunan berhasil ditambahkan");
+
+    /* Print ke file */
+    PrintDescendantToFile(descendant, "MonarchHierarchy.txt");
+    
+    getch();
+}
+
+void PrintDescendantToFile(pointerN node, const char* filename) {
+    FILE *file = fopen(filename, "a");
+
+    if (file == NULL) {
+        printf("File tidak ditemukan/file tidak dapat dibuka\n");
+        return;
+    }
+
+    fprintf(file, "%s, %s, %d, %d, %d, %s, %d, %d, %d\n", 
+        node->pr != NULL ? node->pr->infoKeturunan.name : "NULL",
+        node->infoKeturunan.name, node->infoKeturunan.age, node->infoKeturunan.gender, node->infoKeturunan.liveStatus,
+        node->infoPasangan.name, node->infoPasangan.age, node->infoPasangan.gender, node->infoPasangan.liveStatus);
+
+    fclose(file);
+}
+
+void ReadDescendantFromFileAndDisplay(const char* filename) {
+    FILE *file = fopen(filename, "r");
+
+    if (file == NULL) {
+        printf("File tidak ditemukan/file tidak dapat dibuka\n");
+        return;
+    }
+
+    char parent[50], descendantName[50], spouseName[50];
+    int descendantAge;
+    int descendantGender, descendantLiveStatus;
+    int spouseAge;
+    int spouseGender, spouseLiveStatus;
+
+    while (fscanf(file, "%[^,], %[^,], %d, %d, %d, %[^,], %d, %d, %d\n", 
+                  parent, descendantName, &descendantAge, &descendantGender, &descendantLiveStatus, 
+                  spouseName, &spouseAge, &spouseGender, &spouseLiveStatus) != EOF) {
+        
+        if (strcmp(parent, "NULL") != 0) {
+            printf("Orang tua: %s\n", parent);
+        }
+        printf("Keturunan: %s\n", descendantName);
+        printf("Umur Keturunan: %d\n", descendantAge);
+        printf("Gender Keturunan: %s\n", descendantGender ? "Laki-laki" : "Perempuan");
+        printf("Status Keturunan: %s\n", descendantLiveStatus ? "Hidup" : "Mati");
+
+        printf("Pasangan: %s\n", spouseName);
+        printf("Umur Pasangan: %d\n", spouseAge);
+        printf("Gender Pasangan: %s\n", spouseGender ? "Laki-laki" : "Perempuan");
+        printf("Status Pasangan: %s\n", spouseLiveStatus ? "Hidup" : "Mati");
+        printf("\n");
+    }
+
+    fclose(file);
+}

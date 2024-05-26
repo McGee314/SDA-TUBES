@@ -13,8 +13,18 @@ int main(){
     Create_Tree(&T);
     InsertKing(&T);
 
+    // Insert Descendants
+    char choice;
+    do {
+        printf("\nApakah Anda ingin menambahkan keturunan? (y/n): ");
+        choice = getch();
+        if (choice == 'y' || choice == 'Y') {
+            InsertDescendantInfo(T.root);
+        }
+    } while (choice == 'y' || choice == 'Y');
+
     printf("\n\nMenampilkan isi file MonarchHierarchy.txt:\n\n");
-    ReadFromFileAndDisplay("MonarchHierarchy.txt");
+    ReadDescendantFromFileAndDisplay("MonarchHierarchy.txt");
 
     return 0;
 }
