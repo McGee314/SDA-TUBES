@@ -1,0 +1,3 @@
+Rafli, ayam, 14, 1, 1, 2010
+rafli, ayam, 16, 1, 1, 2008
+rafli, babi, 19, 1, 1, 2005

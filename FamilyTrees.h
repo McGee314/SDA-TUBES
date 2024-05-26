@@ -14,6 +14,10 @@ typedef struct KingdomTree *pointerN;
 // Modifikasi oleh : Samudera
 // Struct Identitas Raja/Ratu dan Pasangannya
 typedef struct {
+    int tahunLahir;
+} year;
+
+typedef struct {
     infoType name;
     int age;
     boolean gender;
@@ -27,10 +31,14 @@ typedef struct KingdomTree {
     pointerN nb;
     identity infoKeturunan;
     identity infoPasangan;
+    year keturunan;
+    year pasangan;
 } TreeNode;
 
 typedef struct Tree {
     pointerN root;
+    pointerN kingQueen;
+    pointerN princePrincess;
 } Tree;
 
 typedef struct kingQueen {
@@ -66,19 +74,25 @@ void loading_screen();
 
 // Sumber : Tugas Program Struktur Non Binary Tree SDA-P
 // Modifikasi oleh : Rafli
-pointerN CreateNode (pointerN parent, infoType name, int age, boolean gender, boolean liveStatus);
+pointerN CreateNode (pointerN parent, infoType name, int age, boolean gender, boolean liveStatus, int tahunLahir);
 // Alokasi Node (Anggota Kerajaan)
 
 void printFromFile(const char* location);
 /* Menampilkan teks pada file yang terdapat pada location*/
 
-void InsertKing(struct Tree *pTree);
-void InsertSpouse(pointerN kingNode);
+void InsertKing(struct Tree *pTree, int currentYear);
+void InsertSpouse(pointerN kingNode, int currentYear);
 void PrintKingAndSpouseToFile(pointerN kingNode, const char* filename);
 void ReadFromFileAndDisplay(const char* filename);
 
 // New functions
-pointerN CreateDescendantNode(pointerN parent, infoType name, int age, boolean gender, boolean liveStatus);
-void InsertDescendantInfo(pointerN parent);
+pointerN CreateDescendantNode(pointerN parent, infoType name, int age, boolean gender, boolean liveStatus, int tahunLahir);
+void InsertDescendantInfo(pointerN parent, int currentYear);
 void PrintDescendantToFile(pointerN node, const char* filename);
 void ReadDescendantFromFileAndDisplay(const char* filename);
+
+pointerN FindNodeByName(pointerN root, const char* name);
+
+void UpdateAges(pointerN root, int currentYear);
+void SetDeceasedStatus(pointerN root, const char* name);
+void UpdatePrincePrincess(Tree* tree);
