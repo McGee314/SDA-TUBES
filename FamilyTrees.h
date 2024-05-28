@@ -81,7 +81,7 @@ void printFromFile(const char* location);
 /* Menampilkan teks pada file yang terdapat pada location*/
 
 void InsertKing(struct Tree *pTree, int currentYear);
-void InsertSpouse(pointerN kingNode, int currentYear);
+void InsertSpouse(pointerN kingNode);
 void PrintKingAndSpouseToFile(pointerN kingNode, const char* filename);
 void ReadFromFileAndDisplay(const char* filename);
 

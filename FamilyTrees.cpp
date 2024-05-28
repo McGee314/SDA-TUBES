@@ -65,7 +65,7 @@ pointerN CreateNode(pointerN pr, infoType name, int age, boolean gender, boolean
     return newNode;
 }
 
-void InsertKing(struct Tree *pTree){
+void InsertKing(struct Tree *pTree, int currentYear){
     pointerN king;
     infoType name;
     int age, temp;
@@ -106,7 +106,7 @@ void InsertKing(struct Tree *pTree){
     printf("\n\tRaja/ratu berhasil ditambahkan");
 
     /* Menambahkan pasangan */
-    InsertSpouse(king);
+    // InsertSpouse(king);
 
     /* Print ke file */
     PrintKingAndSpouseToFile(king, "MonarchHierarchy.txt");
@@ -114,7 +114,7 @@ void InsertKing(struct Tree *pTree){
     getch();
 }
 
-void InsertSpouse(pointerN kingNode){
+void InsertSpouse(pointerN kingNode, int currentYear){
     infoType name;
     int age, temp;
     boolean gender;
@@ -151,6 +151,19 @@ void InsertSpouse(pointerN kingNode){
     kingNode->infoPasangan.age = age;
     kingNode->infoPasangan.gender = gender;
     kingNode->infoPasangan.liveStatus = liveStatus;
+}
+
+//dibuat oleh Muhammad Samudera Bagja
+pointerN FindNodeByName(pointerN root, const char* name) {
+    if (root == NULL) return NULL;
+    if (strcmp(root->infoKeturunan.name, name) == 0) return root;
+
+    // Cari pada anak pertama
+    pointerN result = FindNodeByName(root->fs, name);
+    if (result != NULL) return result;
+
+    // Cari pada saudara berikutnya
+    return FindNodeByName(root->nb, name);
 }
 
 void PrintKingAndSpouseToFile(pointerN kingNode, const char* filename){
@@ -206,11 +219,11 @@ void ReadFromFileAndDisplay(const char* filename) {
 }
 
 // New functions
-pointerN CreateDescendantNode(pointerN parent, infoType name, int age, boolean gender, boolean liveStatus) {
+pointerN CreateDescendantNode(pointerN parent, infoType name, int age, boolean gender, boolean liveStatus, int tahunLahir) {
     return CreateNode(parent, name, age, gender, liveStatus);
 }
 
-void InsertDescendantInfo(pointerN parent) {
+void InsertDescendantInfo(pointerN parent, int currentYear) {
     pointerN descendant;
     infoType name;
     int age, temp;
@@ -244,7 +257,7 @@ void InsertDescendantInfo(pointerN parent) {
     } while (age < 0 || age >= 100);
 
     /* Alokasi node */
-    descendant = CreateDescendantNode(parent, name, age, gender, liveStatus);
+    descendant = CreateDescendantNode(parent, name, age, gender, liveStatus, currentYear);
 
     /* Insert ke tree */
     if (parent->fs == NULL) {
