@@ -1,69 +1,122 @@
+
 #include "FamilyTrees.cpp"
 
-void menu(struct Tree *tree, int currentYear) {
-    int choice;
-    infoType parentName;
-    pointerN parent;
-
-    do {
-        printf("\n\t======================================");
-        printf("\n\t|    SISTEM INFORMASI KETURUNAN     |");
-        printf("\n\t|        KERAJAAN TERPADU           |");
-        printf("\n\t======================================");
-        printf("\n\t| 1. Tambah Raja/Ratu               |");
-        printf("\n\t| 2. Tambah Keturunan               |");
-        printf("\n\t| 3. Lihat Silsilah                 |");
-        printf("\n\t| 4. Keluar                         |");
-        printf("\n\t======================================");
-        printf("\n\tPilihan: ");
-        scanf(" %d", &choice);
-
-        switch (choice) {
-            case 1:
-                InsertKing(tree, currentYear);
-                break;
-            case 2:
-                printf("\n\tMasukkan nama orang tua: ");
-                scanf(" %[^\n]", parentName);
-                parent = FindNodeByName(tree->root, parentName);
-                if (parent != NULL) {
-                    InsertDescendantInfo(parent, currentYear);
-                } else {
-                    printf("\n\tOrang tua tidak ditemukan.");
-                }
-                break;
-            case 3:
-                printf("\n\tData Raja dan Ratu:\n");
-                printf("\nParent\tNama\tUsia\tGender\tStatus\tTahun Lahir\t");
-                printf("Nama Pasangan\tUsia\tGender\tStatus\tTahun Lahir\n");
-                ReadFromFileAndDisplay("MonarchHierarchy.txt");
-
-                printf("\n\tData Keturunan:\n");
-                printf("\nParent\tNama\tUsia\tGender\tStatus\tTahun Lahir\n");
-                ReadDescendantFromFileAndDisplay("MonarchDescendants.txt");
-                getch();
-                break;
-            case 4:
-                printf("\n\tKeluar dari program...");
-                break;
-            default:
-                printf("\n\tPilihan tidak valid.");
-                break;
-        }
-    } while (choice != 4);
-}
+int currentYear = 2024; // Tahun sekarang
+Tree familyTree;
+int currentYear;
+void menu_utama();
+void menu_tampilkan_silsilah();
+void menu_tambah_anggota();
+void menu_ubah_tahun();
+void tampilkan_semua_silsilah(pointerN node);
 
 int main() {
-    Tree familyTree;
-    int currentYear;
-
+    // Buat tree keluarga
     Create_Tree(&familyTree);
-    printf("Masukkan tahun saat ini: ");
-    scanf("%d", &currentYear);
-
+    
+    // Tampilkan loading screen
     loading_screen();
-
-    menu(&familyTree, currentYear);
-
+    
+    // Tampilkan menu utama
+    menu_utama();
+    
     return 0;
+}
+
+void menu_utama() {
+    int choice;
+    
+    do {
+        system("cls");
+        printf("\n\tSistem Informasi Silsilah Kerajaan\n");
+        printf("\t1. Tambah Raja/Ratu\n");
+        printf("\t2. Tambah Keturunan\n");
+        printf("\t3. Tampilkan Silsilah\n");
+        printf("\t4. Ubah Tahun Sekarang\n");
+        printf("\t5. Keluar\n");
+        printf("\tPilihan: ");
+        scanf("%d", &choice);
+        
+        switch (choice) {
+            case 1:
+                InsertKing(&familyTree, currentYear);
+                break;
+            case 2:
+                menu_tambah_anggota();
+                break;
+            case 3:
+                menu_tampilkan_silsilah();
+                break;
+            case 4:
+                menu_ubah_tahun();
+                break;
+            case 5:
+                printf("\n\tTerima kasih!\n");
+                break;
+            default:
+                printf("\n\tPilihan tidak valid!\n");
+                getch();
+                break;
+        }
+    } while (choice != 5);
+}
+
+void menu_tambah_anggota() {
+    char parentName[50];
+    printf("\n\tMasukkan nama orang tua dari keturunan yang ingin ditambahkan: ");
+    scanf(" %[^\n]", parentName);
+    
+    pointerN parentNode = FindNodeByName(familyTree.root, parentName);
+    if (parentNode != NULL) {
+        InsertDescendantInfo(parentNode, currentYear);
+    } else {
+        printf("\n\tOrang tua tidak ditemukan.\n");
+        getch();
+    }
+}
+
+void menu_tampilkan_silsilah() {
+    if (familyTree.root == NULL) {
+        printf("\n\tSilsilah kosong.\n");
+        getch();
+        return;
+    }
+    
+    printf("\n\tSilsilah Kerajaan:\n");
+    tampilkan_semua_silsilah(familyTree.root);
+    getch();
+}
+
+void tampilkan_semua_silsilah(pointerN node) {
+    if (node == NULL) return;
+    
+    printf("\n\tNama: %s\n", node->infoKeturunan.name);
+    printf("\tUmur: %d\n", node->infoKeturunan.age);
+    printf("\tTahun Lahir: %d\n", node->infoKeturunan.birthYear);
+    printf("\tJenis Kelamin: %s\n", node->infoKeturunan.gender ? "Pria" : "Wanita");
+    printf("\tStatus Hidup: %s\n", node->infoKeturunan.liveStatus ? "Hidup" : "Mati");
+    
+    if (node->infoPasangan.birthYear != 0) {
+        printf("\tPasangan:\n");
+        printf("\tNama: %s\n", node->infoPasangan.name);
+        printf("\tUmur: %d\n", node->infoPasangan.age);
+        printf("\tTahun Lahir: %d\n", node->infoPasangan.birthYear);
+        printf("\tJenis Kelamin: %s\n", node->infoPasangan.gender ? "Pria" : "Wanita");
+        printf("\tStatus Hidup: %s\n", node->infoPasangan.liveStatus ? "Hidup" : "Mati");
+    }
+    
+    if (node->fs != NULL) {
+        printf("\tKeturunan:\n");
+        tampilkan_semua_silsilah(node->fs);
+    }
+    
+    tampilkan_semua_silsilah(node->nb);
+}
+
+void menu_ubah_tahun() {
+    printf("\n\tMasukkan tahun sekarang: ");
+    scanf("%d", &currentYear);
+    UpdateAges(familyTree.root, currentYear);
+    printf("\n\tTahun sekarang telah diubah.\n");
+    getch();
 }

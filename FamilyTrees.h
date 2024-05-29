@@ -1,3 +1,6 @@
+#ifndef FAMILYTREES_H
+#define FAMILYTREES_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <windows.h>
@@ -20,6 +23,7 @@ typedef struct {
 typedef struct {
     infoType name;
     int age;
+    int birthYear;
     boolean gender;
     boolean liveStatus;
 } identity;
@@ -74,7 +78,7 @@ void loading_screen();
 
 // Sumber : Tugas Program Struktur Non Binary Tree SDA-P
 // Modifikasi oleh : Rafli
-pointerN CreateNode (pointerN parent, infoType name, int age, boolean gender, boolean liveStatus, int tahunLahir);
+pointerN CreateNode (pointerN parent, infoType name, int age, int birthYear, boolean gender, boolean liveStatus);
 // Alokasi Node (Anggota Kerajaan)
 
 void printFromFile(const char* location);
@@ -86,7 +90,7 @@ void PrintKingAndSpouseToFile(pointerN kingNode, const char* filename);
 void ReadFromFileAndDisplay(const char* filename);
 
 // New functions
-pointerN CreateDescendantNode(pointerN parent, infoType name, int age, boolean gender, boolean liveStatus, int tahunLahir);
+pointerN CreateDescendantNode(pointerN parent, infoType name, int age, int birthYear, boolean gender, boolean liveStatus);
 void InsertDescendantInfo(pointerN parent, int currentYear);
 void PrintDescendantToFile(pointerN node, const char* filename);
 void ReadDescendantFromFileAndDisplay(const char* filename);
@@ -96,3 +100,8 @@ pointerN FindNodeByName(pointerN root, const char* name);
 void UpdateAges(pointerN root, int currentYear);
 void SetDeceasedStatus(pointerN root, const char* name);
 void UpdatePrincePrincess(Tree* tree);
+
+void SaveTreeToFile(pointerN node, const char* filename, const char* parentName);
+void LoadTreeFromFile(Tree* tree, const char* filename);
+
+#endif // FAMILYTREES_H

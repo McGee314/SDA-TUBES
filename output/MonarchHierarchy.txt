@@ -1,1 +1,13 @@
-NULL, rafli, 19, 1, 1, 2005, silmi, 20, 0, 1, 2004
+Raja/Ratu:
+Nama: a
+Umur: 19
+Tahun Lahir: 2005
+Jenis Kelamin: Pria
+Status Hidup: Hidup
+
+Pasangan:
+Nama: b
+Umur: 19
+Tahun Lahir: 2005
+Jenis Kelamin: Wanita
+Status Hidup: Hidup
