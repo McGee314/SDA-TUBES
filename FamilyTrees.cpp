@@ -112,7 +112,7 @@ void InsertKing(struct Tree *pTree, int currentYear){
     InsertSpouse(king, currentYear);
 
     /* Print ke file */
-    PrintKingAndSpouseToFile(king, "MonarchHierarchy.txt");
+    PrintKingAndSpouseToFile(king, "MonarchHierarchy.txt", "a");
     
     getch();
 }
@@ -167,7 +167,7 @@ void InsertSpouse(pointerN kingNode, int currentYear) {
     printf("\n\tPasangan Raja/ratu berhasil ditambahkan\n");
 
     /* Print ke file */
-    PrintKingAndSpouseToFile(kingNode, "MonarchHierarchy.txt");
+    PrintKingAndSpouseToFile(kingNode, "MonarchHierarchy.txt", "a");
 }
 
 //dibuat oleh Muhammad Samudera Bagja
