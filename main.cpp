@@ -142,9 +142,10 @@ void tampilkan_semua_silsilah(pointerN node, int level) {
 }
 
 
-void tampilkan_semua_silsilah(pointerN node) {
-    if (node == NULL) return;
-    
+void tampilkan_semua_silsilah(pointerN node, int level) {
+    if (node == NULL) {
+        return;
+    }
     ReadFromFileAndDisplay("MonarchHierarchy.txt");
 
     printf("\n\tNama: %s\n", node->infoKeturunan.name);
@@ -173,7 +174,7 @@ void tampilkan_semua_silsilah(pointerN node) {
 void menu_ubah_tahun() {
     printf("\n\tMasukkan tahun sekarang: ");
     scanf("%d", &currentYear);
-    UpdateAges(familyTree.root, currentYear);
+    UpdateAges(familyTree.root, 0);
     printf("\n\tTahun sekarang telah diubah.\n");
     getch();
 }
