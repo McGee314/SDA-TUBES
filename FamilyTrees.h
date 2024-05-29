@@ -85,14 +85,15 @@ void printFromFile(const char* location);
 /* Menampilkan teks pada file yang terdapat pada location*/
 
 void InsertKing(struct Tree *pTree, int currentYear);
-void InsertSpouse(pointerN kingNode);
-void PrintKingAndSpouseToFile(pointerN kingNode, const char* filename);
+void InsertSpouse(pointerN kingNode, int currentYear);
+void InsertSpouseForDescendant(pointerN descendantNode, int currentYear);
+void PrintKingAndSpouseToFile(pointerN kingNode, const char* filename, const char* mode);
 void ReadFromFileAndDisplay(const char* filename);
 
 // New functions
 pointerN CreateDescendantNode(pointerN parent, infoType name, int age, int birthYear, boolean gender, boolean liveStatus);
 void InsertDescendantInfo(pointerN parent, int currentYear);
-void PrintDescendantToFile(pointerN node, const char* filename);
+void PrintDescendantToFile(pointerN node, const char* filename, const char* mode);
 void ReadDescendantFromFileAndDisplay(const char* filename);
 
 pointerN FindNodeByName(pointerN root, const char* name);

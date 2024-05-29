@@ -109,7 +109,7 @@ void InsertKing(struct Tree *pTree, int currentYear){
     printf("\n\tRaja/ratu berhasil ditambahkan");
 
     /* Menambahkan pasangan */
-    InsertSpouse(king);
+    InsertSpouse(king, currentYear);
 
     /* Print ke file */
     PrintKingAndSpouseToFile(king, "MonarchHierarchy.txt");
@@ -118,7 +118,7 @@ void InsertKing(struct Tree *pTree, int currentYear){
 }
 
 //dibuat oleh Muhammad Rafli Fadhilah
-void InsertSpouse(pointerN kingNode){
+void InsertSpouse(pointerN kingNode, int currentYear) {
     infoType name;
     int birthYear, temp;
     boolean gender;
@@ -148,8 +148,14 @@ void InsertSpouse(pointerN kingNode){
     printf("\n\tTahun Lahir: ");
     scanf(" %d", &birthYear);
 
-    
     int age = currentYear - birthYear;
+
+    if (currentYear - kingNode->infoKeturunan.birthYear < 19) {
+        printf("\n\tKeturunan belum mencapai usia 19 tahun. Silakan masukkan tahun saat ini yang akan menaikkan umur mereka.\n");
+        printf("\tMasukkan tahun saat ini: ");
+        scanf("%d", &currentYear);
+        kingNode->infoKeturunan.age = currentYear - kingNode->infoKeturunan.birthYear;
+    }
 
     /* Assign pasangan ke node raja/ratu */
     strcpy(kingNode->infoPasangan.name, name);
@@ -157,6 +163,11 @@ void InsertSpouse(pointerN kingNode){
     kingNode->infoPasangan.birthYear = birthYear;
     kingNode->infoPasangan.gender = gender;
     kingNode->infoPasangan.liveStatus = liveStatus;
+
+    printf("\n\tPasangan Raja/ratu berhasil ditambahkan\n");
+
+    /* Print ke file */
+    PrintKingAndSpouseToFile(kingNode, "MonarchHierarchy.txt");
 }
 
 //dibuat oleh Muhammad Samudera Bagja
@@ -231,24 +242,28 @@ void InsertDescendantInfo(pointerN parent, int currentYear) {
     printf("\n\tKeturunan berhasil ditambahkan");
 
     /* Print ke file */
-    PrintDescendantToFile(descendant, "MonarchHierarchy.txt");
+    PrintDescendantToFile(descendant, "MonarchHierarchy.txt", "a");
+
+    /* Tambahkan pasangan untuk keturunan */
+    InsertSpouseForDescendant(descendant, currentYear);
 
     getch();
 }
 
+
 //dibuat oleh Muhammad Rafli Fadhilah
-void PrintKingAndSpouseToFile(pointerN kingNode, const char* filename) {
-    FILE* file = fopen(filename, "w");
+void PrintKingAndSpouseToFile(pointerN kingNode, const char* filename, const char* mode) {
+    FILE* file = fopen(filename, mode);
     if (file == NULL) {
         printf("\n\tError membuka file.\n");
         return;
     }
 
-    fprintf(file, "%s,%s,%d,%s,%s,%s,%d,%s,%s\n",
+    fprintf(file, "%s,%s,%d,%d,%s,%s,%d,%d,%s\n",
             "Parent", kingNode->infoKeturunan.name, kingNode->infoKeturunan.age,
-            kingNode->infoKeturunan.gender? "Pria" : "Wanita", kingNode->infoKeturunan.liveStatus? "Hidup" : "Mati",
+            kingNode->infoKeturunan.gender, kingNode->infoKeturunan.liveStatus ? "Hidup" : "Mati",
             kingNode->infoPasangan.name, kingNode->infoPasangan.age,
-            kingNode->infoPasangan.gender? "Pria" : "Wanita", kingNode->infoPasangan.liveStatus? "Hidup" : "Mati");
+            kingNode->infoPasangan.gender, kingNode->infoPasangan.liveStatus ? "Hidup" : "Mati");
 
     fclose(file);
 }
@@ -261,27 +276,25 @@ void ReadFromFileAndDisplay(const char* filename) {
         return;
     }
 
-    char line[100];
-    while (fgets(line, sizeof(line), file)!= NULL) {
-        char parent[50], name[50], spouseName[50];
-        int age, spouseAge;
-        char gender[10], spouseGender[10];
-        char liveStatus[10], spouseLiveStatus[10];
-
-        sscanf(line, "%[^,],%[^,],%d,%[^,],%[^,],%[^,],%d,%[^,],%[^,]\n",
-               parent, name, &age, gender, liveStatus, spouseName, &spouseAge, spouseGender, spouseLiveStatus);
+    char parent[50], name[50], spouseName[50];
+    int age, spouseAge, gender, spouseGender;
+    char liveStatus[10], spouseLiveStatus[10];
+    while (fscanf(file, "%[^,],%[^,],%d,%d,%[^,],%[^,],%d,%d,%s\n",parent, name, &age, &gender, liveStatus, spouseName, &spouseAge, &spouseGender, spouseLiveStatus) != EOF) {
+       
+        // sscanf(line, "%[^,],%[^,],%d,%d,%[^,],%[^,],%d,%d,%s\n",
+        //        parent, name, &age, &gender, liveStatus, spouseName, &spouseAge, &spouseGender, spouseLiveStatus);
 
         printf("\n\tNama: %s\n", name);
         printf("\tUmur: %d\n", age);
-        printf("\tJenis Kelamin: %s\n", gender);
-        printf("\tStatus Hidup: %s\n", liveStatus);
+        printf("\tJenis Kelamin: %s\n", gender ? "Pria" : "Wanita");
+        printf("\tStatus Hidup: %s\n", strcmp(liveStatus, "Hidup") == 0 ? "Hidup" : "Mati");
 
-        if (strcmp(spouseName, "")!= 0) {
+        if (strcmp(spouseName, "-") != 0) {
             printf("\tPasangan:\n");
             printf("\tNama: %s\n", spouseName);
             printf("\tUmur: %d\n", spouseAge);
-            printf("\tJenis Kelamin: %s\n", spouseGender);
-            printf("\tStatus Hidup: %s\n", spouseLiveStatus);
+            printf("\tJenis Kelamin: %s\n", spouseGender ? "Pria" : "Wanita");
+            printf("\tStatus Hidup: %s\n", strcmp(spouseLiveStatus, "Hidup") == 0 ? "Hidup" : "Mati");
         }
     }
 
@@ -289,16 +302,16 @@ void ReadFromFileAndDisplay(const char* filename) {
 }
 
 //dibuat oleh Muhammad Samudera Bagja
-void PrintDescendantToFile(pointerN node, const char* filename) {
-    FILE* file = fopen(filename, "a");
+void PrintDescendantToFile(pointerN node, const char* filename, const char* mode) {
+    FILE* file = fopen(filename, mode);
     if (file == NULL) {
         printf("\n\tError membuka file.\n");
         return;
     }
 
-    fprintf(file, "%s,%s,%d,%s,%s\n",
-            node->infoKeturunan.name, node->infoKeturunan.name, node->infoKeturunan.age,
-            node->infoKeturunan.gender? "Pria" : "Wanita", node->infoKeturunan.liveStatus? "Hidup" : "Mati");
+    fprintf(file, "%s,%s,%d,%d,%s\n",
+            node->pr->infoKeturunan.name, node->infoKeturunan.name, node->infoKeturunan.age,
+            node->infoKeturunan.gender, node->infoKeturunan.liveStatus ? "Hidup" : "Mati");
 
     fclose(file);
 }
@@ -365,4 +378,49 @@ void UpdatePrincePrincess(Tree* tree) {
 
     tree->princePrincess = tree->root->fs;
     printf("\n\tKeturunan pertama berhasil diatur sebagai pangeran/putri.\n");
+}
+
+void InsertSpouseForDescendant(pointerN descendantNode, int currentYear) {
+    infoType name;
+    int birthYear, temp;
+    boolean gender;
+    boolean liveStatus = true; // true = hidup, false = mati
+
+    /* Input Nama */
+    printf("\n\tMasukan Identitas Pasangan Keturunan:\n");
+    printf("\n\tNama: ");
+    scanf(" %[^\n]", name);
+
+    /* Input Jenis Kelamin */
+    do {
+        printf("\n\t%c Pilih jenis kelamin\n", 175);
+        printf("\t  0. Wanita\n");
+        printf("\t  1. Pria\n");
+        printf("\t  Pilihan: ");
+        scanf(" %d", &temp);
+        if (temp != 0 && temp != 1) {
+            printf("\t Input tidak valid \n");
+        } else {
+            gender = (temp == 1);
+            break;
+        }
+    } while (1);
+
+    /* Input Tahun Lahir Pasangan */
+    printf("\n\tTahun Lahir: ");
+    scanf(" %d", &birthYear);
+
+    int age = currentYear - birthYear;
+
+    /* Assign pasangan ke node keturunan */
+    strcpy(descendantNode->infoPasangan.name, name);
+    descendantNode->infoPasangan.age = age;
+    descendantNode->infoPasangan.birthYear = birthYear;
+    descendantNode->infoPasangan.gender = gender;
+    descendantNode->infoPasangan.liveStatus = liveStatus;
+
+    printf("\n\tPasangan Keturunan berhasil ditambahkan\n");
+
+    /* Print ke file */
+    PrintDescendantToFile(descendantNode, "MonarchHierarchy.txt", "a");
 }

@@ -1,9 +1,7 @@
-
 #include "FamilyTrees.cpp"
 
-int currentYear = 2024; // Tahun sekarang
-Tree familyTree;
 int currentYear;
+Tree familyTree;
 void menu_utama();
 void menu_tampilkan_silsilah();
 void menu_tambah_anggota();
@@ -81,15 +79,74 @@ void menu_tampilkan_silsilah() {
         getch();
         return;
     }
-    
+
     printf("\n\tSilsilah Kerajaan:\n");
-    tampilkan_semua_silsilah(familyTree.root);
+    tampilkan_semua_silsilah(familyTree.root, 0);
     getch();
 }
+
+void tampilkan_semua_silsilah(pointerN node, int level) {
+    if (node == NULL) return;
+
+    for (int i = 0; i < level; i++) {
+        printf("\t");
+    }
+
+    printf("Nama: %s\n", node->infoKeturunan.name);
+    for (int i = 0; i < level; i++) {
+        printf("\t");
+    }
+    printf("Umur: %d\n", node->infoKeturunan.age);
+    for (int i = 0; i < level; i++) {
+        printf("\t");
+    }
+    printf("Tahun Lahir: %d\n", node->infoKeturunan.birthYear);
+    for (int i = 0; i < level; i++) {
+        printf("\t");
+    }
+    printf("Jenis Kelamin: %s\n", node->infoKeturunan.gender ? "Pria" : "Wanita");
+    for (int i = 0; i < level; i++) {
+        printf("\t");
+    }
+    printf("Status Hidup: %s\n", node->infoKeturunan.liveStatus ? "Hidup" : "Mati");
+
+    if (node->infoPasangan.birthYear != 0) {
+        for (int i = 0; i < level; i++) {
+            printf("\t");
+        }
+        printf("Pasangan:\n");
+        for (int i = 0; i < level; i++) {
+            printf("\t");
+        }
+        printf("Nama: %s\n", node->infoPasangan.name);
+        for (int i = 0; i < level; i++) {
+            printf("\t");
+        }
+        printf("Umur: %d\n", node->infoPasangan.age);
+        for (int i = 0; i < level; i++) {
+            printf("\t");
+        }
+        printf("Tahun Lahir: %d\n", node->infoPasangan.birthYear);
+        for (int i = 0; i < level; i++) {
+            printf("\t");
+        }
+        printf("Jenis Kelamin: %s\n", node->infoPasangan.gender ? "Pria" : "Wanita");
+        for (int i = 0; i < level; i++) {
+            printf("\t");
+        }
+        printf("Status Hidup: %s\n", node->infoPasangan.liveStatus ? "Hidup" : "Mati");
+    }
+
+    tampilkan_semua_silsilah(node->fs, level + 1);
+    tampilkan_semua_silsilah(node->nb, level);
+}
+
 
 void tampilkan_semua_silsilah(pointerN node) {
     if (node == NULL) return;
     
+    ReadFromFileAndDisplay("MonarchHierarchy.txt");
+
     printf("\n\tNama: %s\n", node->infoKeturunan.name);
     printf("\tUmur: %d\n", node->infoKeturunan.age);
     printf("\tTahun Lahir: %d\n", node->infoKeturunan.birthYear);

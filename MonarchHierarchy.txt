@@ -1,1 +1,2 @@
-NULL, Rafli, 99, 1, 1, , 0, 0, 0
+Parent,a,45,1,Hidup,b,45,0,Hidup
+a,c,20,1,Hidup
