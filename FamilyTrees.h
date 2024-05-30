@@ -89,7 +89,7 @@ void InsertSpouseForDescendant(pointerN descendantNode, int currentYear);
 void PrintKingAndSpouseToFile(pointerN kingNode, const char* filename, const char* mode);
 void ReadFromFileAndDisplay(const char* filename);
 
-void insertNode()
+void insertNode();
 
 void ReadFromFile(const char* filename);
 void Display(const char* filename);
