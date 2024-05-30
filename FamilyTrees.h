@@ -6,7 +6,6 @@
 #include <windows.h>
 #include <conio.h>
 #include <string.h>
-#include <iostream>
 #include "boolean.h"
 
 // Dibuat oleh Muhammad Samudera Bagja
@@ -90,11 +89,16 @@ void InsertSpouseForDescendant(pointerN descendantNode, int currentYear);
 void PrintKingAndSpouseToFile(pointerN kingNode, const char* filename, const char* mode);
 void ReadFromFileAndDisplay(const char* filename);
 
+void insertNode()
+
+void ReadFromFile(const char* filename);
+void Display(const char* filename);
+
 // New functions
 pointerN CreateDescendantNode(pointerN parent, infoType name, int age, int birthYear, boolean gender, boolean liveStatus);
 void InsertDescendantInfo(pointerN parent, int currentYear);
 void PrintDescendantToFile(pointerN node, const char* filename, const char* mode);
-void ReadDescendantFromFileAndDisplay(const char* filename);
+// void ReadDescendantFromFileAndDisplay(const char* filename);
 
 pointerN FindNodeByName(pointerN root, const char* name);
 

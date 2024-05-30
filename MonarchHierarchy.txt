@@ -1,2 +1,2 @@
 Parent,a,45,1,Hidup,b,45,0,Hidup
-a,c,20,1,Hidup
+a,d,20,1,Hidup,e,20,0,Hidup
